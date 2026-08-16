@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ConfigContext = createContext();
 
 const DEFAULT_NUMBER = '919876543210';
-const DEFAULT_MESSAGE = 'Hello! I am interested in your services.';
+const DEFAULT_MESSAGE = 'Hello! I am interested in your digital services.';
 
 // Helper function to automatically format and ensure valid country code for WhatsApp
 export const formatWhatsAppNumber = (rawNumber, defaultCountryCode = '91') => {
@@ -12,15 +12,43 @@ export const formatWhatsAppNumber = (rawNumber, defaultCountryCode = '91') => {
   if (clean.startsWith('0')) {
     clean = clean.substring(1);
   }
-  // If 10 digits (e.g. 8923939941), automatically add country code
+  // If 10 digits (e.g. 919876543210), automatically add country code
   if (clean.length === 10) {
     clean = defaultCountryCode + clean;
   }
   return clean;
 };
 
-const CLOUD_OBJECT_ID = 'ff8081819f7e10ae019f8fe337941bbc';
-const CLOUD_API_URL = `https://api.restful-api.dev/objects/${CLOUD_OBJECT_ID}`;
+// Permanent Unmetered Global Cloud KV Storage
+const CLOUD_APP_KEY = '41nguzma';
+const CLOUD_GET_URL = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/config`;
+const CLOUD_SET_URL = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/config/`;
+
+// Browser-safe UTF-8 to Hex encoders for cloud KV storage
+const strToHex = (str) => {
+  try {
+    const utf8 = unescape(encodeURIComponent(str));
+    let hex = '';
+    for (let i = 0; i < utf8.length; i++) {
+      hex += utf8.charCodeAt(i).toString(16).padStart(2, '0');
+    }
+    return hex;
+  } catch (e) {
+    return '';
+  }
+};
+
+const hexToStr = (hex) => {
+  try {
+    let str = '';
+    for (let i = 0; i < hex.length; i += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    }
+    return decodeURIComponent(escape(str));
+  } catch (e) {
+    return '';
+  }
+};
 
 // Hardcoded Credentials directly in code (No Database)
 export const HARDCODED_ADMIN = {
@@ -31,7 +59,7 @@ export const HARDCODED_ADMIN = {
 export const ConfigProvider = ({ children }) => {
   const [whatsappNumber, setWhatsappNumber] = useState(() => {
     try {
-      const stored = localStorage.getItem('nova_whatsapp_number');
+      const stored = localStorage.getItem('nexora_whatsapp_number');
       return stored ? formatWhatsAppNumber(stored) : DEFAULT_NUMBER;
     } catch (e) {
       return DEFAULT_NUMBER;
@@ -40,7 +68,7 @@ export const ConfigProvider = ({ children }) => {
 
   const [whatsappMessage, setWhatsappMessage] = useState(() => {
     try {
-      return localStorage.getItem('nova_whatsapp_message') || DEFAULT_MESSAGE;
+      return localStorage.getItem('nexora_whatsapp_message') || DEFAULT_MESSAGE;
     } catch (e) {
       return DEFAULT_MESSAGE;
     }
@@ -51,33 +79,47 @@ export const ConfigProvider = ({ children }) => {
   const [lastSyncedAt, setLastSyncedAt] = useState('');
   const [syncError, setSyncError] = useState('');
 
-  // Admin session state - requires login when opening /admin
+  // Admin session state
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  // Load latest settings from Cloud DB on app mount for any user on any device
+  // Load latest settings from Cloud DB on app mount for all devices globally
   useEffect(() => {
     let isMounted = true;
+
     const fetchGlobalConfig = async () => {
       setIsSyncing(true);
       try {
-        const res = await fetch(CLOUD_API_URL, { cache: 'no-store' });
+        const res = await fetch(CLOUD_GET_URL, { cache: 'no-store' });
         if (res.ok) {
-          const json = await res.json();
-          if (json && json.data) {
-            const num = json.data.whatsappNumber;
-            const msg = json.data.whatsappMessage;
-            if (num && isMounted) {
-              const formattedNum = formatWhatsAppNumber(num);
-              setWhatsappNumber(formattedNum);
-              try { localStorage.setItem('nova_whatsapp_number', formattedNum); } catch (e) {}
-            }
-            if (msg && isMounted) {
-              setWhatsappMessage(msg);
-              try { localStorage.setItem('nova_whatsapp_message', msg); } catch (e) {}
-            }
-            if (isMounted) {
-              setLastSyncedAt(new Date().toLocaleTimeString());
-              setSyncError('');
+          const raw = await res.json();
+          if (raw && typeof raw === 'string' && raw.length > 0) {
+            const decodedJson = hexToStr(raw);
+            if (decodedJson) {
+              const parsed = JSON.parse(decodedJson);
+              if (parsed) {
+                const num = parsed.whatsappNumber;
+                const msg = parsed.whatsappMessage;
+
+                if (num && isMounted) {
+                  const formattedNum = formatWhatsAppNumber(num);
+                  setWhatsappNumber(formattedNum);
+                  try {
+                    localStorage.setItem('nexora_whatsapp_number', formattedNum);
+                  } catch (e) {}
+                }
+
+                if (msg && isMounted) {
+                  setWhatsappMessage(msg);
+                  try {
+                    localStorage.setItem('nexora_whatsapp_message', msg);
+                  } catch (e) {}
+                }
+
+                if (isMounted) {
+                  setLastSyncedAt(new Date().toLocaleTimeString());
+                  setSyncError('');
+                }
+              }
             }
           }
         }
@@ -95,8 +137,8 @@ export const ConfigProvider = ({ children }) => {
     const handleFocus = () => fetchGlobalConfig();
     window.addEventListener('focus', handleFocus);
 
-    // Background polling every 10 seconds for real-time updates across devices
-    const interval = setInterval(fetchGlobalConfig, 10000);
+    // Periodic sync every 25 seconds
+    const interval = setInterval(fetchGlobalConfig, 25000);
 
     return () => {
       isMounted = false;
@@ -113,31 +155,31 @@ export const ConfigProvider = ({ children }) => {
     setWhatsappNumber(cleanNumber);
     setWhatsappMessage(trimmedMsg);
     try {
-      localStorage.setItem('nova_whatsapp_number', cleanNumber);
-      localStorage.setItem('nova_whatsapp_message', trimmedMsg);
+      localStorage.setItem('nexora_whatsapp_number', cleanNumber);
+      localStorage.setItem('nexora_whatsapp_message', trimmedMsg);
     } catch (e) {}
 
     setIsSaving(true);
     setSyncError('');
 
     try {
-      const res = await fetch(CLOUD_API_URL, {
-        method: 'PUT',
+      const payload = JSON.stringify({
+        whatsappNumber: cleanNumber,
+        whatsappMessage: trimmedMsg,
+        updatedAt: new Date().toISOString(),
+      });
+
+      const hexData = strToHex(payload);
+
+      const res = await fetch(`${CLOUD_SET_URL}${hexData}`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Length': '0',
         },
-        body: JSON.stringify({
-          name: 'nova_whatsapp_config_global',
-          data: {
-            whatsappNumber: cleanNumber,
-            whatsappMessage: trimmedMsg,
-            updatedAt: new Date().toISOString(),
-          },
-        }),
       });
 
       if (!res.ok) {
-        throw new Error(`Server returned ${res.status}`);
+        throw new Error(`Cloud server returned ${res.status}`);
       }
 
       setLastSyncedAt(new Date().toLocaleTimeString());
@@ -147,7 +189,7 @@ export const ConfigProvider = ({ children }) => {
       console.error('Failed to save to cloud:', err);
       setIsSaving(false);
       setSyncError('Cloud save failed (saved locally only)');
-      return { success: true, message: '⚠️ Saved locally on this browser, but cloud sync failed.' };
+      return { success: true, message: '⚠️ Saved locally, but cloud sync encountered an error.' };
     }
   };
 
@@ -172,7 +214,10 @@ export const ConfigProvider = ({ children }) => {
   };
 
   const getWhatsAppLink = (customText) => {
-    const textToEncode = (customText !== undefined && customText !== null && customText.trim() !== '') ? customText : whatsappMessage;
+    const textToEncode =
+      customText !== undefined && customText !== null && customText.trim() !== ''
+        ? customText
+        : whatsappMessage;
     const cleanNumber = formatWhatsAppNumber(whatsappNumber);
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(textToEncode)}`;
   };
@@ -196,10 +241,11 @@ export const ConfigProvider = ({ children }) => {
         config: {
           whatsappNumber,
           whatsappMessage,
-          agentName: 'NovaBridge Team',
-          heroTitle: 'Build Smarter Digital Experiences That Convert',
-          heroSubtitle: 'We craft lightning-fast, beautifully designed web solutions that turn visitors into loyal customers — optimized for every device.',
-          heroBadge: '✨ Smart Digital Solutions',
+          agentName: 'Nexora Support Team',
+          heroTitle: 'Scale Your Business With High-Converting Digital Experiences',
+          heroSubtitle:
+            'We engineer ultra-responsive web applications, seamless UI/UX architectures, and direct instant customer messaging channels.',
+          heroBadge: '⚡ Next-Gen Web Solutions & Growth Platform',
         },
       }}
     >
