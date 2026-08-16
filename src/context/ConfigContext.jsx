@@ -31,7 +31,7 @@ export const HARDCODED_ADMIN = {
 export const ConfigProvider = ({ children }) => {
   const [whatsappNumber, setWhatsappNumber] = useState(() => {
     try {
-      const stored = localStorage.getItem('aura_whatsapp_number');
+      const stored = localStorage.getItem('nova_whatsapp_number');
       return stored ? formatWhatsAppNumber(stored) : DEFAULT_NUMBER;
     } catch (e) {
       return DEFAULT_NUMBER;
@@ -40,7 +40,7 @@ export const ConfigProvider = ({ children }) => {
 
   const [whatsappMessage, setWhatsappMessage] = useState(() => {
     try {
-      return localStorage.getItem('aura_whatsapp_message') || DEFAULT_MESSAGE;
+      return localStorage.getItem('nova_whatsapp_message') || DEFAULT_MESSAGE;
     } catch (e) {
       return DEFAULT_MESSAGE;
     }
@@ -69,11 +69,11 @@ export const ConfigProvider = ({ children }) => {
             if (num && isMounted) {
               const formattedNum = formatWhatsAppNumber(num);
               setWhatsappNumber(formattedNum);
-              try { localStorage.setItem('aura_whatsapp_number', formattedNum); } catch (e) {}
+              try { localStorage.setItem('nova_whatsapp_number', formattedNum); } catch (e) {}
             }
             if (msg && isMounted) {
               setWhatsappMessage(msg);
-              try { localStorage.setItem('aura_whatsapp_message', msg); } catch (e) {}
+              try { localStorage.setItem('nova_whatsapp_message', msg); } catch (e) {}
             }
             if (isMounted) {
               setLastSyncedAt(new Date().toLocaleTimeString());
@@ -113,8 +113,8 @@ export const ConfigProvider = ({ children }) => {
     setWhatsappNumber(cleanNumber);
     setWhatsappMessage(trimmedMsg);
     try {
-      localStorage.setItem('aura_whatsapp_number', cleanNumber);
-      localStorage.setItem('aura_whatsapp_message', trimmedMsg);
+      localStorage.setItem('nova_whatsapp_number', cleanNumber);
+      localStorage.setItem('nova_whatsapp_message', trimmedMsg);
     } catch (e) {}
 
     setIsSaving(true);
@@ -127,7 +127,7 @@ export const ConfigProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: 'aura_whatsapp_config_global',
+          name: 'nova_whatsapp_config_global',
           data: {
             whatsappNumber: cleanNumber,
             whatsappMessage: trimmedMsg,
@@ -164,7 +164,7 @@ export const ConfigProvider = ({ children }) => {
       setIsAdminLoggedIn(true);
       return { success: true };
     }
-    return { success: false, message: 'Galat Username ya Password hai! (Username: admin | Password: admin123)' };
+    return { success: false, message: 'Incorrect username or password. Please try again.' };
   };
 
   const logoutAdmin = () => {
@@ -196,10 +196,10 @@ export const ConfigProvider = ({ children }) => {
         config: {
           whatsappNumber,
           whatsappMessage,
-          agentName: 'AURA Support Team',
-          heroTitle: 'Transforming Ideas into Digital Masterpieces',
-          heroSubtitle: 'Supercharge your business with ultra-responsive, high-performance web applications designed for maximum mobile conversion.',
-          heroBadge: '🔥 Mobile-First Digital Studio',
+          agentName: 'NovaBridge Team',
+          heroTitle: 'Build Smarter Digital Experiences That Convert',
+          heroSubtitle: 'We craft lightning-fast, beautifully designed web solutions that turn visitors into loyal customers — optimized for every device.',
+          heroBadge: '✨ Smart Digital Solutions',
         },
       }}
     >

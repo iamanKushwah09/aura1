@@ -1,60 +1,78 @@
 import React from 'react';
-import { MessageSquare, ArrowRight, Sparkles, HeartHandshake, Zap } from 'lucide-react';
+import { MessageSquare, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import { useConfig } from '../context/ConfigContext';
 
 export const Hero = () => {
   const { config, getWhatsAppLink } = useConfig();
 
   return (
-    <section className="section-padding" style={{ position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
-      <div className="max-w-content" style={{ maxWidth: '880px' }}>
+    <section
+      className="section-padding"
+      style={{
+        position: 'relative',
+        textAlign: 'center',
+        overflow: 'hidden',
+        paddingTop: '60px',
+        paddingBottom: '90px',
+      }}
+    >
+      {/* Soft Green and Blue Mesh Orbs */}
+      <div className="hero-bg-mesh">
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
+        <div className="orb orb-3"></div>
+      </div>
+
+      <div className="max-w-content" style={{ maxWidth: '920px', position: 'relative', zIndex: 1 }}>
         {/* Colorful Badge */}
         <div style={{ marginBottom: '24px' }}>
           <span className="badge-pill">
-            <Sparkles size={16} color="#ec4899" />
-            <span>{config.heroBadge || '🔥 Mobile-First Vibrant Digital Studio'}</span>
+            <Sparkles size={15} color="#059669" />
+            <span>{config.heroBadge || '⚡ Next-Gen Web Solutions & Growth Platform'}</span>
           </span>
         </div>
 
-        {/* Title */}
+        {/* Hero Title */}
         <h1
-          className="gradient-text"
           style={{
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(2.4rem, 6.5vw, 4.4rem)',
-            fontWeight: '800',
+            fontWeight: '900',
             lineHeight: '1.12',
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.035em',
+            color: '#0f172a',
             marginBottom: '22px',
           }}
         >
-          {config.heroTitle || 'Transforming Ideas into Colorful Digital Masterpieces'}
+          Scale Your Business With{' '}
+          <span className="gradient-text">High-Converting Digital</span>{' '}
+          Experiences
         </h1>
 
         {/* Subtitle */}
         <p
           style={{
             color: 'var(--text-muted)',
-            fontSize: 'clamp(1.05rem, 2.5vw, 1.3rem)',
-            lineHeight: '1.65',
-            marginBottom: '40px',
-            maxWidth: '700px',
-            margin: '0 auto 40px auto',
+            fontSize: 'clamp(1.05rem, 2.4vw, 1.25rem)',
+            lineHeight: '1.7',
+            marginBottom: '42px',
+            maxWidth: '680px',
+            margin: '0 auto 42px auto',
             fontWeight: '500',
           }}
         >
           {config.heroSubtitle ||
-            'Supercharge your business with ultra-responsive, high-performance web applications designed for maximum mobile conversion.'}
+            'We engineer ultra-responsive web applications, seamless UI/UX architectures, and direct instant customer messaging channels.'}
         </p>
 
-        {/* Action Buttons */}
+        {/* Action Button */}
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
             gap: '16px',
-            alignItems: 'center',
             justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: 'wrap',
             marginBottom: '54px',
           }}
         >
@@ -63,78 +81,76 @@ export const Hero = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-whatsapp"
-            style={{ width: '100%', maxWidth: '340px', justifyContent: 'center', fontSize: '1.05rem' }}
+            style={{ fontSize: '1.02rem', padding: '16px 36px', maxWidth: '340px', width: '100%' }}
           >
             <MessageSquare size={22} />
             <span>Chat on WhatsApp Now</span>
           </a>
-
-          {/* <a
-            href="#services"
-            className="btn-secondary"
-            style={{ width: '100%', maxWidth: '340px', justifyContent: 'center' }}
-          > */}
-            {/* <span>Explore Services</span> */}
-            {/* <ArrowRight size={18} /> */}
-          {/* </a> */}
         </div>
 
-        {/* Availability Badge */}
+        {/* Trust Badges Row */}
         <div
-          className="glass-card"
           style={{
-            display: 'inline-flex',
+            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '12px',
-            padding: '16px 36px',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(243, 232, 255, 0.6) 100%)',
-            border: '1px solid rgba(99, 102, 241, 0.2)',
-            borderRadius: '9999px',
-            boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.1)',
+            gap: '18px',
+            flexWrap: 'wrap',
           }}
         >
-          <span
+          <div
             style={{
-              position: 'relative',
               display: 'flex',
-              height: '12px',
-              width: '12px',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 22px',
+              background: '#ffffff',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
+              borderRadius: '9999px',
+              boxShadow: '0 4px 15px -3px rgba(16, 185, 129, 0.12)',
             }}
           >
-            <span
-              style={{
-                position: 'absolute',
-                display: 'inline-flex',
-                height: '100%',
-                width: '100%',
-                borderRadius: '50%',
-                backgroundColor: '#10b981',
-                opacity: 0.75,
-              }}
-            />
-            <span
-              style={{
-                position: 'relative',
-                display: 'inline-flex',
-                borderRadius: '50%',
-                height: '12px',
-                width: '12px',
-                backgroundColor: '#10b981',
-              }}
-            />
-          </span>
-          <span
+            <Zap size={17} color="#059669" />
+            <span style={{ fontSize: '0.9rem', fontWeight: '700', color: '#0f172a' }}>
+              Ultra Fast Speed
+            </span>
+          </div>
+
+          <div
             style={{
-              fontSize: '1.35rem',
-              fontWeight: '800',
-              color: '#1e1b4b',
-              fontFamily: 'var(--font-heading)',
-              letterSpacing: '0.02em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 22px',
+              background: '#ffffff',
+              border: '1px solid rgba(37, 99, 235, 0.25)',
+              borderRadius: '9999px',
+              boxShadow: '0 4px 15px -3px rgba(37, 99, 235, 0.12)',
             }}
           >
-            24/7 Available
-          </span>
+            <ShieldCheck size={17} color="#2563eb" />
+            <span style={{ fontSize: '0.9rem', fontWeight: '700', color: '#0f172a' }}>
+              Enterprise Grade
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 22px',
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '9999px',
+              boxShadow: '0 4px 15px -3px rgba(15, 23, 42, 0.05)',
+            }}
+          >
+            <span className="pulse-dot"></span>
+            <span style={{ fontSize: '0.9rem', fontWeight: '700', color: '#0f172a' }}>
+              24/7 Live Availability
+            </span>
+          </div>
         </div>
       </div>
     </section>

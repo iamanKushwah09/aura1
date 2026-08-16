@@ -91,7 +91,7 @@ export const Admin = () => {
     setTimeout(() => setToastMessage(''), 5000);
   };
 
-  // STEP 1: If NOT logged in -> Show Username & Password Login Form First!
+  // STEP 1: Login Form (Light theme with Green & Blue accents)
   if (!isAdminLoggedIn) {
     return (
       <div
@@ -100,37 +100,46 @@ export const Admin = () => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '20px',
-          background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)',
+          background: 'linear-gradient(135deg, #f8fafc 0%, #f0fdf4 50%, #eff6ff 100%)',
         }}
       >
         <div style={{ position: 'absolute', top: '24px', left: '24px' }}>
-          <Link to="/" className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.88rem' }}>
+          <Link to="/" className="btn-secondary" style={{ padding: '8px 18px', fontSize: '0.88rem' }}>
             <ArrowLeft size={16} /> Back to Website
           </Link>
         </div>
 
-        <div className="glass-card" style={{ maxWidth: '420px', width: '100%', padding: '36px 28px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
-          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+        <div
+          className="glass-card"
+          style={{
+            maxWidth: '430px',
+            width: '100%',
+            padding: '38px 30px',
+            border: '1.5px solid rgba(16, 185, 129, 0.25)',
+            boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.1), 0 0 20px -2px rgba(16, 185, 129, 0.12)',
+          }}
+        >
+          <div style={{ textAlign: 'center', marginBottom: '26px' }}>
             <div
               style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: '18px',
-                background: 'linear-gradient(135deg, #4f46e5 0%, #ec4899 100%)',
+                width: '58px',
+                height: '58px',
+                borderRadius: '16px',
+                background: 'linear-gradient(135deg, #10b981 0%, #2563eb 100%)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '14px',
+                marginBottom: '16px',
                 color: '#fff',
-                boxShadow: '0 8px 25px rgba(99, 102, 241, 0.35)',
+                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.35)',
               }}
             >
               <KeyRound size={28} />
             </div>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: '800', color: '#0f172a', marginBottom: '6px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: '900', color: '#0f172a', marginBottom: '6px' }}>
               Admin Verification
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: '500' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', fontWeight: '500' }}>
               Enter Username & Password to access WhatsApp settings.
             </p>
           </div>
@@ -138,17 +147,17 @@ export const Admin = () => {
           {/* Hardcoded Credentials Alert Box */}
           <div
             style={{
-              background: 'rgba(99, 102, 241, 0.08)',
-              border: '1px dashed rgba(99, 102, 241, 0.35)',
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(37, 99, 235, 0.06) 100%)',
+              border: '1.5px dashed rgba(16, 185, 129, 0.35)',
               borderRadius: '14px',
               padding: '14px',
               marginBottom: '20px',
-              fontSize: '0.85rem',
-              color: '#3730a3',
+              fontSize: '0.86rem',
+              color: '#065f46',
             }}
           >
             <div style={{ fontWeight: '800', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Lock size={14} color="#4f46e5" /> Hardcoded Login Credentials:
+              <Lock size={14} color="#059669" /> Login Credentials:
             </div>
             <div>Username: <strong style={{ color: '#0f172a' }}>{HARDCODED_ADMIN.username}</strong></div>
             <div>Password: <strong style={{ color: '#0f172a' }}>{HARDCODED_ADMIN.password}</strong></div>
@@ -157,14 +166,14 @@ export const Admin = () => {
           {loginError && (
             <div
               style={{
-                background: '#fee2e2',
-                border: '1px solid #fca5a5',
+                background: '#fef2f2',
+                border: '1px solid #fecaca',
                 color: '#991b1b',
                 padding: '12px 14px',
                 borderRadius: '12px',
                 fontSize: '0.88rem',
                 marginBottom: '18px',
-                fontWeight: '600',
+                fontWeight: '700',
               }}
             >
               ⚠️ {loginError}
@@ -188,7 +197,7 @@ export const Admin = () => {
                     width: '100%',
                     padding: '12px 14px 12px 42px',
                     borderRadius: '12px',
-                    border: '1.5px solid rgba(99, 102, 241, 0.3)',
+                    border: '1.5px solid #cbd5e1',
                     background: '#ffffff',
                     color: '#0f172a',
                     fontSize: '0.98rem',
@@ -215,7 +224,7 @@ export const Admin = () => {
                     width: '100%',
                     padding: '12px 42px 12px 42px',
                     borderRadius: '12px',
-                    border: '1.5px solid rgba(99, 102, 241, 0.3)',
+                    border: '1.5px solid #cbd5e1',
                     background: '#ffffff',
                     color: '#0f172a',
                     fontSize: '0.98rem',
@@ -233,8 +242,8 @@ export const Admin = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn-primary" style={{ marginTop: '10px', width: '100%', justifyContent: 'center' }}>
-              Login to Admin Panel
+            <button type="submit" className="btn-primary" style={{ marginTop: '10px', width: '100%', justifyContent: 'center', padding: '14px' }}>
+              Sign In to Admin Panel
             </button>
           </form>
         </div>
@@ -242,24 +251,24 @@ export const Admin = () => {
     );
   }
 
-  // STEP 2: After Successful Login -> Render WhatsApp Settings Editor Panel
+  // STEP 2: WhatsApp Settings Dashboard
   return (
     <div className="app-container" style={{ paddingBottom: '60px' }}>
       <header
         style={{
-          background: 'rgba(255, 255, 255, 0.9)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(99, 102, 241, 0.15)',
+          borderBottom: '1px solid rgba(16, 185, 129, 0.2)',
           padding: '16px 20px',
         }}
       >
         <div className="max-w-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ background: '#25D366', color: '#fff', padding: '8px', borderRadius: '12px', display: 'flex' }}>
-              <ShieldCheck size={22} />
+            <div style={{ background: 'linear-gradient(135deg, #10b981 0%, #2563eb 100%)', color: '#fff', padding: '8px', borderRadius: '12px', display: 'flex' }}>
+              <ShieldCheck size={24} />
             </div>
             <div>
-              <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '800', color: '#0f172a' }}>
+              <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: '900', color: '#0f172a' }}>
                 Admin Dashboard
               </h1>
               <span style={{ fontSize: '11px', color: '#059669', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -269,18 +278,18 @@ export const Admin = () => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Link to="/" className="btn-secondary" style={{ padding: '8px 14px', fontSize: '0.85rem' }}>
+            <Link to="/" className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.86rem' }}>
               <ArrowLeft size={16} /> View Website
             </Link>
 
-            <button onClick={logoutAdmin} className="btn-secondary" style={{ padding: '8px 14px', fontSize: '0.85rem', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }}>
+            <button onClick={logoutAdmin} className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.86rem', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }}>
               <LogOut size={16} /> Logout
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-content" style={{ marginTop: '40px', padding: '0 20px', maxWidth: '640px' }}>
+      <main className="max-w-content" style={{ marginTop: '40px', padding: '0 20px', maxWidth: '660px' }}>
         {toastMessage && (
           <div
             style={{
@@ -290,7 +299,7 @@ export const Admin = () => {
               borderRadius: '16px',
               marginBottom: '24px',
               fontWeight: '700',
-              boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)',
+              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)',
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
@@ -304,19 +313,20 @@ export const Admin = () => {
         {/* Global Cloud Sync Status Card */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%)',
-            border: '1px solid rgba(37, 211, 102, 0.3)',
+            background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%)',
+            border: '1.5px solid rgba(16, 185, 129, 0.3)',
             borderRadius: '20px',
-            padding: '20px 24px',
+            padding: '22px 24px',
             marginBottom: '24px',
+            boxShadow: '0 8px 24px -4px rgba(15, 23, 42, 0.05)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <div style={{ fontSize: '0.78rem', fontWeight: '800', color: '#047857', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Globe size={14} /> Global Cloud Sync (Vercel & All Devices)
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: '800', color: '#047857', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Globe size={15} /> Global Cloud Sync (Vercel & All Devices)
             </div>
             {isSyncing ? (
-              <span style={{ fontSize: '11px', color: '#3b82f6', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '11px', color: '#2563eb', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <RefreshCw size={12} className="spin" /> Syncing...
               </span>
             ) : (
@@ -325,21 +335,21 @@ export const Admin = () => {
               </span>
             )}
           </div>
-          <div style={{ fontSize: '0.92rem', color: '#0f172a', fontWeight: '700', marginBottom: '6px' }}>
-            📱 Number: <span style={{ color: '#059669' }}>+{whatsappNumber || 'Not set'}</span>
+          <div style={{ fontSize: '0.95rem', color: '#0f172a', fontWeight: '700', marginBottom: '8px' }}>
+            📱 Active Number: <span style={{ color: '#059669', fontWeight: '800' }}>+{whatsappNumber || 'Not set'}</span>
           </div>
-          <div style={{ fontSize: '0.9rem', color: '#334155', fontWeight: '600', background: '#ffffff', padding: '12px 16px', borderRadius: '12px', border: '1px solid rgba(37, 211, 102, 0.2)' }}>
+          <div style={{ fontSize: '0.9rem', color: '#334155', fontWeight: '600', background: '#ffffff', padding: '12px 16px', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
             💬 <strong style={{ color: '#0f172a' }}>Current Default SMS:</strong> "{whatsappMessage}"
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '32px' }}>
-          <div style={{ marginBottom: '24px', borderBottom: '1px solid rgba(99, 102, 241, 0.1)', paddingBottom: '16px' }}>
+        <div className="glass-card" style={{ padding: '34px' }}>
+          <div style={{ marginBottom: '24px', borderBottom: '1px solid #e2e8f0', paddingBottom: '16px' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '800' }}>
-              <Phone size={24} color="#25D366" /> Edit WhatsApp Settings
+              <Phone size={24} color="#059669" /> Edit WhatsApp Settings
             </h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4px', fontWeight: '500' }}>
-              Set your mobile number and default message. Saved globally online across all devices.
+              Update your WhatsApp number and default customer message. Synchronized across all live visitors.
             </p>
           </div>
 
@@ -355,7 +365,7 @@ export const Admin = () => {
                   style={{
                     padding: '14px 12px',
                     borderRadius: '14px',
-                    border: '2px solid rgba(37, 211, 102, 0.4)',
+                    border: '1.5px solid #cbd5e1',
                     background: '#ffffff',
                     color: '#0f172a',
                     fontSize: '0.95rem',
@@ -374,7 +384,7 @@ export const Admin = () => {
                 </select>
 
                 <div style={{ position: 'relative', flex: '1 1 200px' }}>
-                  <Phone size={20} color="#25D366" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+                  <Phone size={20} color="#059669" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
                   <input
                     type="text"
                     required
@@ -382,10 +392,10 @@ export const Admin = () => {
                       width: '100%',
                       padding: '14px 16px 14px 48px',
                       borderRadius: '14px',
-                      border: '2px solid rgba(37, 211, 102, 0.4)',
+                      border: '1.5px solid #cbd5e1',
                       background: '#ffffff',
                       color: '#0f172a',
-                      fontSize: '1.05rem',
+                      fontSize: '1.02rem',
                       fontWeight: '700',
                       outline: 'none',
                     }}
@@ -405,7 +415,7 @@ export const Admin = () => {
                 DEFAULT WHATSAPP SMS / MESSAGE
               </label>
               <div style={{ position: 'relative' }}>
-                <MessageSquare size={20} color="#25D366" style={{ position: 'absolute', left: '16px', top: '18px' }} />
+                <MessageSquare size={20} color="#2563eb" style={{ position: 'absolute', left: '16px', top: '18px' }} />
                 <textarea
                   required
                   rows={3}
@@ -413,7 +423,7 @@ export const Admin = () => {
                     width: '100%',
                     padding: '14px 16px 14px 48px',
                     borderRadius: '14px',
-                    border: '2px solid rgba(37, 211, 102, 0.4)',
+                    border: '1.5px solid #cbd5e1',
                     background: '#ffffff',
                     color: '#0f172a',
                     fontSize: '1rem',
@@ -428,7 +438,7 @@ export const Admin = () => {
                 />
               </div>
               <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px', fontWeight: '600' }}>
-                💬 This default SMS will be automatically filled when a user clicks the WhatsApp button on any device.
+                💬 This default SMS will be automatically populated whenever a customer clicks the WhatsApp button.
               </div>
             </div>
 
